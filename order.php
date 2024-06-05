@@ -26,7 +26,7 @@ $conn->close();
 <html>
 
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Food</title>
     <?php include 'cdn.php'; ?>
@@ -93,8 +93,12 @@ $conn->close();
                         </div>
                     <?php endforeach; ?>
                 </div>
+                <div class="arrows">
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
             </div>
-
+            
             <div class="order-section ">
                 <div class="forms">
                     <h2>Order Details</h2>
@@ -106,7 +110,7 @@ $conn->close();
                 </div>
                 <div class="forms">
                     <label for="order-date">Date:</label>
-                    <input type="date" id="order-date" required> <!-- Input for cashier to enter date -->
+                    <input type="text" placeholder="Pick a date" id="order-date" required> <!-- Input for cashier to enter date -->
                 </div>
                 <table id="order-table">
                     <thead>
@@ -122,7 +126,7 @@ $conn->close();
                         <!-- Dynamically populated with JavaScript -->
                     </tbody>
                 </table>
-<br> <br>
+                <br> <br>
                 <div class="forms">
                     <label for="payment-method">Select Payment Method:</label>
                     <select id="payment-method" required>
@@ -144,39 +148,19 @@ $conn->close();
             </div>
         </div>
     </div>
+    
+   
+    <script src="./js/swiper.js"></script>
+    <script src="./js/order.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const swiper = new Swiper('.swiper-container', {
-                loop: true,
-                spaceBetween: 30,
-                centeredSlides: true,
-                autoplay: {
-                    delay: 2500,
-                    disableOnInteraction: false,
-                },
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                },
-                breakpoints: {
-                    768: {
-                        slidesPerView: 3,
-                        spaceBetween: 30
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                        spaceBetween: 40
-                    }
-                }
-            });
+        flatpickr("#order-date", {
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            maxDate: "today",
+            disableMobile: true 
         });
     </script>
-
-    <script src="./js/order.js"></script> <!-- External JS file -->
 </body>
 
 </html>

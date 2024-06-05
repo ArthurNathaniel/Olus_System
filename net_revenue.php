@@ -95,9 +95,9 @@ $netRevenue = $totalRevenue - $totalExpenses;
             <tbody>
                 <tr>
                     <td><?php echo $selectedDate; ?></td>
-                    <td>$<?php echo number_format($totalRevenue, 2); ?></td>
-                    <td>$<?php echo number_format($totalExpenses, 2); ?></td>
-                    <td>$<?php echo number_format($netRevenue, 2); ?></td>
+                    <td>GH₵ <?php echo number_format($totalRevenue, 2); ?></td>
+                    <td>GH₵ <?php echo number_format($totalExpenses, 2); ?></td>
+                    <td>GH₵ <?php echo number_format($netRevenue, 2); ?></td>
                 </tr>
             </tbody>
         </table>
