@@ -6,4 +6,12 @@
 .forms textarea{
     height: 150px;
     width: 100%;
+    padding-left: 3%;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding-top: 10px;
+}
+
+.forms textarea:focus{
+    outline: none;
 }

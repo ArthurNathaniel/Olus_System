@@ -30,7 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
     $conn->close();
 
-    header("Location: add_expense.php");
+    header("Location: expenses_history.php");
+
     exit();
 }
 ?>

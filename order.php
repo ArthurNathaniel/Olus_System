@@ -26,6 +26,8 @@ $conn->close();
 <html>
 
 <head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Food</title>
     <?php include 'cdn.php'; ?>
     <link rel="stylesheet" href="./css/base.css">
@@ -62,7 +64,7 @@ $conn->close();
             <div class="profile"></div>
         </div>
         <div class="page_cards">
-            <div class="cards_container">
+            <!-- <div class="cards_container">
                 <?php foreach ($foods as $food) : ?>
                     <div class="card">
                         <img src="<?php echo $food['image']; ?>" alt="<?php echo $food['name']; ?>">
@@ -74,8 +76,8 @@ $conn->close();
                         </div>
                     </div>
                 <?php endforeach; ?>
-            </div>
-            <!-- <div class="swiper-container">
+            </div> -->
+            <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <?php foreach ($foods as $food) : ?>
                         <div class="swiper-slide">
@@ -91,7 +93,7 @@ $conn->close();
                         </div>
                     <?php endforeach; ?>
                 </div>
-            </div> -->
+            </div>
 
             <div class="order-section ">
                 <div class="forms">

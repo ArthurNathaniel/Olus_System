@@ -6,6 +6,9 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+// Assuming $cashierName is set in session or should be retrieved from database
+$cashierName = $_SESSION['username']; // or fetch from database if stored there
+
 include 'db.php';
 
 // Fetch expenses from the database
@@ -25,9 +28,37 @@ $conn->close();
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/food.css">
     <link rel="stylesheet" href="./css/expenses.css">
+    <script>
+        function greetUser() {
+            var currentTime = new Date();
+            var currentHour = currentTime.getHours();
+            var greeting;
+
+            if (currentHour < 12) {
+                greeting = "Good morning";
+            } else if (currentHour < 18) {
+                greeting = "Good afternoon";
+            } else {
+                greeting = "Good evening";
+            }
+
+            var cashierName = "<?php echo $cashierName; ?>";
+            document.getElementById("greeting").innerHTML = greeting + ", " + cashierName;
+        }
+    </script>
+
 </head>
-<body>
+
+<body onload="greetUser()">
+    <?php include 'sidebar.php'; ?>
     <div class="all">
+        <div class="welcome_base">
+            <div class="greetings">
+                <h1 id="greeting"> <?php echo $cashierName; ?></h1>
+                <!-- <p>Welcome to Olu's Kitchen, </p> -->
+            </div>
+            <div class="profile"></div>
+        </div>
         <h2>Expenses History</h2>
         <?php
         if (isset($_SESSION['success_message'])) {
@@ -55,7 +86,7 @@ $conn->close();
                             <td><?php echo htmlspecialchars($row['name']); ?></td>
                             <td><?php echo htmlspecialchars($row['date']); ?></td>
                             <td><?php echo htmlspecialchars($row['description']); ?></td>
-                            <td>$<?php echo number_format($row['amount'], 2); ?></td>
+                            <td>GH₵ <?php echo number_format($row['amount'], 2); ?></td>
                         </tr>
                     <?php endwhile; ?>
                 <?php else : ?>

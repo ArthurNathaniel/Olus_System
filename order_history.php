@@ -97,10 +97,10 @@ $conn->close();
                         <td><?php echo $firstOrder['id']; ?></td> <!-- Display the ID of the first order -->
                         <td rowspan="<?php echo count($orders); ?>"><?php echo $orderID; ?></td>
                         <td><?php echo isset($firstOrder['items']) ? $firstOrder['food_name'] . ', ' . $firstOrder['items'] : $firstOrder['food_name']; ?></td>
-                        <td>$<?php echo number_format($firstOrder['price'], 2); ?></td>
+                        <td>GH₵ <?php echo number_format($firstOrder['price'], 2); ?></td>
                         <td><?php echo $firstOrder['quantity']; ?></td>
                         <td><?php echo $firstOrder['date'] . ', ' . $firstOrder['payment_method']; ?></td>
-                        <td rowspan="<?php echo count($orders); ?>">$<?php echo number_format($totalPrice, 2); ?></td>
+                        <td rowspan="<?php echo count($orders); ?>">GH₵ <?php echo number_format($totalPrice, 2); ?></td>
                         <td rowspan="<?php echo count($orders); ?>">
                             <a href="print_receipt.php?order_id=<?php echo $orderID; ?>" target="_blank">Print Receipt</a>
                         </td>
@@ -112,7 +112,7 @@ $conn->close();
                         <tr>
                             <td><?php echo $order['id']; ?></td> <!-- Display the ID for subsequent orders -->
                             <td><?php echo isset($order['items']) ? $order['food_name'] . ', ' . $order['items'] : $order['food_name']; ?></td>
-                            <td>$<?php echo number_format($order['price'], 2); ?></td>
+                            <td>GH₵ <?php echo number_format($order['price'], 2); ?></td>
                             <td><?php echo $order['quantity']; ?></td>
                             <td><?php echo $order['date'] . ', ' . $order['payment_method']; ?></td>
                         </tr>

@@ -79,7 +79,9 @@ $conn->close();
             <div class="profile"></div>
         </div>
     <div class="forms">
-        <h1>Total Money Gained by Payment Method</h1>
+      <div class="forms">
+      <h1>Total Money Gained by Payment Method</h1>
+      </div>
         
         <!-- Form to select a date -->
         <form method="POST" action="">
@@ -107,12 +109,12 @@ $conn->close();
                 <?php foreach ($paymentTotals as $method => $total) : ?>
                     <tr>
                         <td><?php echo htmlspecialchars($method); ?></td>
-                        <td>$<?php echo number_format($total, 2); ?></td>
+                        <td>GH₵ <?php echo number_format($total, 2); ?></td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>
                     <td><strong>Total Earnings</strong></td>
-                    <td><strong>$<?php echo number_format($totalEarnings, 2); ?></strong></td>
+                    <td><strong>GH₵ <?php echo number_format($totalEarnings, 2); ?></strong></td>
                 </tr>
             </tbody>
         </table>
