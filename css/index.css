@@ -1,0 +1,36 @@
+.index_all{
+    padding-left: 7%;
+    /* margin-block: 50px; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+}
+
+.index_btn{
+    margin-top: 30px;
+}
+
+.index_btn button{
+    padding: 15px 45px;
+    background-color: #E4002B;
+    color: #fff ;
+    border: none;
+    border-radius: 10px;
+}
+
+.index_text p{
+    margin-top: 20px;
+}
+
+.index_swiper{
+    overflow-x: hidden;
+    background-color: #E4002B;
+    /* border-radius: 30px; */
+    display: none;
+}
+
+.index_text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

@@ -1,0 +1,162 @@
+<?php
+include 'db.php';
+
+$error = '';
+$success = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $image = $_FILES['image'];
+
+    // Validate inputs
+    if (empty($name) || empty($image['name'])) {
+        $error = 'All fields are required';
+    } else {
+        // Handle file upload
+        $targetDir = "uploads/";
+        $targetFile = $targetDir . basename($image["name"]);
+        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+        // Check if image file is an actual image or fake image
+        $check = getimagesize($image["tmp_name"]);
+        if ($check === false) {
+            $error = "File is not an image.";
+        }
+
+        // Check if file already exists
+        if (file_exists($targetFile)) {
+            $error = "Sorry, file already exists.";
+        }
+
+        // Check file size (5MB limit)
+        if ($image["size"] > 5000000) {
+            $error = "Sorry, your file is too large.";
+        }
+
+        // Allow certain file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            $error = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        }
+
+        // Check if $error is empty to proceed with upload
+        if (empty($error)) {
+            if (move_uploaded_file($image["tmp_name"], $targetFile)) {
+                // Insert food item into database
+                $sql = "INSERT INTO foods (name, image, price) VALUES ('$name', '$targetFile', NULL)";
+                if ($conn->query($sql) === TRUE) {
+                    $success = "Food item added successfully!";
+                } else {
+                    $error = "Error: " . $sql . "<br>" . $conn->error;
+                }
+            } else {
+                $error = "Sorry, there was an error uploading your file.";
+            }
+        }
+    }
+
+    $conn->close();
+}
+?>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Food Item</title>
+    <?php include 'cdn.php'; ?>
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+<body>
+    <div class="page_all">
+        <div class="page_login">
+            <div class="forms">
+                <h2>Add a New Food Item</h2>
+                <p>Enter details of the new food item</p>
+            </div>
+            <form method="POST" action="" enctype="multipart/form-data">
+                <?php if ($error): ?>
+                    <div class="forms error">
+                        <p><?php echo $error; ?></p>
+                        <span class="close-error"><i class="fa-solid fa-xmark"></i></span>
+                    </div>
+                <?php endif; ?>
+                <?php if ($success): ?>
+                    <div class="forms success">
+                        <p><?php echo $success; ?></p>
+                        <span class="close-success"><i class="fa-solid fa-xmark"></i></span>
+                    </div>
+                <?php endif; ?>
+                <div class="forms">
+                    <label>Food Name:</label>
+                    <input type="text" placeholder="Enter food name" name="name" required>
+                </div>
+                <div class="forms">
+                    <label>Food Image:</label>
+                    <input type="file" name="image" required>
+                </div>
+                <div class="forms">
+                    <button type="submit">Add Food</button>
+                </div>
+            </form>
+        </div>
+        <div class="page_swiper">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="./images/1.png" alt="">
+                        <div class="swiper_text">
+                            <p>Enhance customer service and boost efficiency with our user-friendly restaurant POS system</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="./images/2.png" alt="">
+                        <div class="swiper_text">
+                            <p>Simplify your order management and elevate dining experiences with our advanced POS solution.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swipper_arrow">
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/swiper.js"></script>
+    <script>
+        // Toggle password visibility
+        document.querySelector('.toggle-password').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        });
+
+        // Close error message
+        document.querySelectorAll('.close-error').forEach(el => {
+            el.addEventListener('click', function() {
+                const errorDiv = this.parentElement;
+                errorDiv.style.display = 'none';
+            });
+        });
+
+        // Close success message
+        document.querySelectorAll('.close-success').forEach(el => {
+            el.addEventListener('click', function() {
+                const successDiv = this.parentElement;
+                successDiv.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
