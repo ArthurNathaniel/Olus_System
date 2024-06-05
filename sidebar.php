@@ -14,11 +14,12 @@
         <a href="order.php">Order Food</a>
         <a href="order_history.php">Order History</a>
         <a href="chart.php">Order Chart</a>
-        <a href="add_expense.php">Add Expenses</a>
+     
         <a href="daily_earnings.php">Daily Earning (Food)</a>
         <a href="daily_payment.php">Daily Payment Method</a>
         <a href="net_revenue.php">Daily Net Revenue</a>
-
+        <a href="add_expense.php">Add Expenses</a>
+        <a href="expenses_history.php">Expenses History</a>
        
 
         <a href="logout.php">

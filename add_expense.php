@@ -99,22 +99,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="POST" action="add_expense.php" onsubmit="changeButtonText()">
             <div class="forms">
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" placeholder="Enetr your name" id="name" name="name" required>
             </div>
 
             <div class="forms">
                 <label for="date">Date</label>
-                <input type="date" id="date" name="date" required>
+                <input type="text" id="date" placeholder="Pick a date"  name="date" required>
             </div>
 
             <div class="forms">
                 <label for="description">Description</label>
-                <textarea id="description" name="description" rows="4" required></textarea>
+                <textarea id="description" placeholder="Enter your description" name="description" rows="4" required></textarea>
             </div>
 
             <div class="forms">
                 <label for="amount">Amount</label>
-                <input type="number" id="amount" name="amount" step="0.01" required>
+                <input type="number" min="0" placeholder="Enter the amount" id="amount" name="amount" required>
             </div>
 
             <div class="forms">
@@ -122,5 +122,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </form>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+            // Initialize Flatpickr for the date input field
+            flatpickr("#date", {
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            maxDate: "today",
+            disableMobile: true // Enable Flatpickr on mobile devices
+        });
+    </script>
 </body>
 </html>
