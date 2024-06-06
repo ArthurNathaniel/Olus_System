@@ -14,19 +14,30 @@
         <a href="order.php">Order Food</a>
         <a href="order_history.php">Order History</a>
         <a href="chart.php">Order Chart</a>
-     
+
         <a href="daily_earnings.php">Daily Earning (Food)</a>
         <a href="daily_payment.php">Daily Payment Method</a>
         <a href="net_revenue.php">Daily Net Revenue</a>
-        <a href="add_expense.php">Add Expenses</a>
-        <a href="expenses_history.php">Expenses History</a>
-       
 
+        <?php if ($_SESSION['user_role'] === 'admin') : ?>
+            <h3> <span class="icon"><i class="fa-solid fa-chart-simple"></i></span> Admin</h3>
+            <a href="add_food.php">Add Food</a>
+            <a href="view_food.php">View Added Food</a>
+            <a href="register_cashier.php">Register Cashier</a>
+            <a href="add_expense.php">Add Expenses</a>
+            <a href="expenses_history.php">Expenses History</a>
+            <a href="monthly_earnings.php">Monthly Earning(Food)</a>
+            <a href="yearly_earnings.php">Yearly Earning (Food)</a>
+            <a href="monthly_earnings.php">Monthly Payment Method</a>
+            <a href="yearly_payment.php">Yearly Payment Method</a>
+            <a href="net_revenue_monthly.php">Monthly Net Revenue</a>
+            <a href="yearly_net_revenue.php">Yearly Net Revenue</a>
+        <?php endif; ?>
+        
         <a href="logout.php">
-            <h3> <i class="fas fa-sign-out-alt"></i> LOGOUT
-            </h3>
-        </a>
-
+                <h3> <i class="fas fa-sign-out-alt"></i> LOGOUT
+                </h3>
+            </a>
     </div>
     <style>
         h3 a {

@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+// Check if the user is logged in and is an admin
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    // Redirect to unauthorized page or login page
+    header("Location: unauthorized.php");
+    exit();
+}
 include 'db.php';
 
 $error = '';
@@ -67,9 +75,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'cdn.php'; ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/login.css">
+    <script>
+        
+    </script>
 </head>
 <body>
-    <div class="page_all">
+<?php include 'sidebar.php'; ?>
+    <div class="all">
         <div class="page_login">
             <div class="forms">
                 <h2>Add a New Food Item</h2>
@@ -101,29 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </form>
         </div>
-        <div class="page_swiper">
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="./images/1.png" alt="">
-                        <div class="swiper_text">
-                            <p>Enhance customer service and boost efficiency with our user-friendly restaurant POS system</p>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="./images/2.png" alt="">
-                        <div class="swiper_text">
-                            <p>Simplify your order management and elevate dining experiences with our advanced POS solution.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="swipper_arrow">
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
+        
     </div>
     <script src="./js/swiper.js"></script>
     <script>

@@ -1,8 +1,10 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+// Check if the user is logged in and is an admin
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    // Redirect to unauthorized page or login page
+    header("Location: unauthorized.php");
     exit();
 }
 
@@ -50,9 +52,36 @@ $conn->close();
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/food.css">
     <link rel="stylesheet" href="./css/expenses.css">
+    <script>
+        function greetUser() {
+            var currentTime = new Date();
+            var currentHour = currentTime.getHours();
+            var greeting;
+
+            if (currentHour < 12) {
+                greeting = "Good morning";
+            } else if (currentHour < 18) {
+                greeting = "Good afternoon";
+            } else {
+                greeting = "Good evening";
+            }
+
+            var cashierName = "<?php echo isset($_SESSION['username']) ? $_SESSION['username'] : ''; ?>";
+            document.getElementById("greeting").innerHTML = greeting + ", " + cashierName;
+        }
+    </script>
 </head>
-<body>
+
+<body onload="greetUser()">
+    <?php include 'sidebar.php'; ?>
     <div class="all">
+        <div class="welcome_base">
+            <div class="greetings">
+                <h1 id="greeting"></h1>
+                <!-- <p>Welcome to Olu's Kitchen, </p> -->
+            </div>
+            <div class="profile"></div>
+        </div>
         <h2>Yearly Net Revenue</h2>
         <form method="POST" action="yearly_net_revenue.php">
             <div class="forms">
@@ -77,9 +106,9 @@ $conn->close();
         echo "<table>";
         echo "<tr><th>Total Revenue</th><th>Total Expenses</th><th>Net Revenue</th></tr>";
         echo "<tr>";
-        echo "<td>$" . number_format($totalRevenue, 2) . "</td>";
-        echo "<td>$" . number_format($totalExpenses, 2) . "</td>";
-        echo "<td>$" . number_format($netRevenue, 2) . "</td>";
+        echo "<td>GH₵ " . number_format($totalRevenue, 2) . "</td>";
+        echo "<td>GH₵ " . number_format($totalExpenses, 2) . "</td>";
+        echo "<td>GH₵ " . number_format($netRevenue, 2) . "</td>";
         echo "</tr>";
         echo "</table>";
         ?>

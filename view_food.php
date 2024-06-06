@@ -1,170 +1,141 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+// Check if the user is logged in and is an admin
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    // Redirect to unauthorized page or login page
+    header("Location: unauthorized.php");
     exit();
 }
-$cashierName = isset($_SESSION['username']) ? $_SESSION['username'] : 'Unknown'; // Get the cashier's name from the session
-$currentDate = date('Y-m-d'); // Get the current date
-
 include 'db.php';
 
-// Fetch food items from the database
-$sql = "SELECT * FROM foods";
-$result = $conn->query($sql);
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
+    $delete_id = $_POST['delete_id'];
 
-$foods = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $foods[] = $row;
+    // SQL query to delete the food item
+    $sql = "DELETE FROM foods WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $delete_id);
+
+    if ($stmt->execute()) {
+        $success = "Food item deleted successfully!";
+    } else {
+        $error = "Error deleting food item: " . $conn->error;
     }
+
+    $stmt->close();
 }
 
-$conn->close();
+// Query to fetch all food items from the database
+$sql = "SELECT id, name, image FROM foods";
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>View Food Items</title>
     <?php include 'cdn.php'; ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/food.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px dashed black;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        /* th {
+            background-color: #f2f2f2;
+        } */
+        img {
+            width: 100px;
+            height: auto;
+        }
+        form button{
+            width: 100%;
+        }
+    </style>
 </head>
-
 <body>
-    <div class="page_all">
-        <div class="page_cards">
-            <div class="cards_container">
-                <?php foreach ($foods as $food) : ?>
-                    <div class="card">
-                        <img src="<?php echo $food['image']; ?>" alt="<?php echo $food['name']; ?>">
-                        <div class="card_info">
-                            <h2><?php echo $food['name']; ?></h2>
-                            <p>Price: <?php echo $food['price']; ?></p>
-                            <button class="add-to-order" data-id="<?php echo $food['id']; ?>" data-name="<?php echo $food['name']; ?>" data-price="<?php echo $food['price']; ?>">+</button>
-
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+<?php include 'sidebar.php'; ?>
+    <div class="all">
+        <div class="page_login">
+            <div class="forms">
+                <h2>Food Items</h2>
+                <p>List of all food items</p>
             </div>
-            <div class="order-section">
-                <h2>Order Details</h2>
-                <p>Cashier: <?php echo $cashierName; ?></p> <!-- Display cashier's name -->
-                <p>Date: <?php echo $currentDate; ?></p> <!-- Display current date -->
-                <table id="order-table">
-                    <thead>
-                        <tr>
-                            <th>Food Name</th>
-                            <th>Price</th>
-                            <th>Action</th> <!-- Added new column for the remove button -->
-                        </tr>
-                    </thead>
-                    <tbody id="order-items">
-                        <!-- Dynamically populated with JavaScript -->
-                    </tbody>
+            <?php if (!empty($error)): ?>
+                <div class="forms error">
+                    <p><?php echo $error; ?></p>
+                    <span class="close-error"><i class="fa-solid fa-xmark"></i></span>
+                </div>
+            <?php endif; ?>
+            <?php if (!empty($success)): ?>
+                <div class="forms success">
+                    <p><?php echo $success; ?></p>
+                    <span class="close-success"><i class="fa-solid fa-xmark"></i></span>
+                </div>
+            <?php endif; ?>
+            <div class="forms">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                    <?php
+                    if ($result->num_rows > 0) {
+                        while($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>" . $row["id"] . "</td>";
+                            echo "<td>" . $row["name"] . "</td>";
+                            echo "<td><img src='" . $row["image"] . "' alt='" . $row["name"] . "'></td>";
+                            echo "<td>";
+                            echo "<form method='POST' action='' onsubmit='return confirmDeletion();'>";
+                            echo "<input type='hidden' name='delete_id' value='" . $row["id"] . "'>";
+                            echo "<button type='submit'>Delete</button>";
+                            echo "</form>";
+                            echo "</td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No food items found</td></tr>";
+                    }
+                    $conn->close();
+                    ?>
                 </table>
-                <div class="payment-section">
-                    <div class="forms">
-                        <label for="payment-method">Select Payment Method:</label>
-                        <select id="payment-method">
-                            <option value="cash">Cash</option>
-                            <option value="momo">Mobile Money</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="forms">
-                    <p class="subtotal">Subtotal: $<span id="subtotal">0.00</span></p>
-                </div>
-                <div class="forms">
-                    <label for="discount">Discount:</label>
-                    <input type="number" id="discount" value="0">
-                </div>
-                <div class="forms">
-                    <p class="total">Total: $<span id="total">0.00</span></p>
-                </div>
-                <div class="forms">
-                    <button id="checkout">Checkout</button>
-                </div>
-
             </div>
         </div>
     </div>
-
+    <script src="./js/swiper.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const addToOrderButtons = document.querySelectorAll('.add-to-order');
-            const removeToOrderButtons = document.querySelectorAll('.remove-to-order'); // Select all remove buttons
-            const orderItemsContainer = document.getElementById('order-items');
-            const paymentMethodSelect = document.getElementById('payment-method');
-            const subtotalElement = document.getElementById('subtotal');
-            const totalElement = document.getElementById('total');
-            let subtotal = 0;
-
-            addToOrderButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const foodId = this.dataset.id;
-                    const foodName = this.dataset.name;
-                    const foodPrice = parseFloat(this.dataset.price);
-
-                    // Add the selected food item to the order table
-                    const newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                        <td>${foodName}</td>
-                        <td>$${foodPrice.toFixed(2)}</td>
-                        <td><button class="remove-item">Remove</button></td> <!-- Add remove button -->
-                    `;
-                    orderItemsContainer.appendChild(newRow);
-
-                    // Update subtotal
-                    subtotal += foodPrice;
-                    subtotalElement.textContent = subtotal.toFixed(2);
-                    // Update total (for now, it's the same as subtotal)
-                    totalElement.textContent = subtotal.toFixed(2);
-                });
-            });
-
-            // Listen for remove button clicks
-            orderItemsContainer.addEventListener('click', function(event) {
-                if (event.target.classList.contains('remove-item')) {
-                    const row = event.target.closest('tr');
-                    const priceToRemove = parseFloat(row.children[1].textContent.replace('$', ''));
-
-                    // Remove the row from the table
-                    row.remove();
-
-                    // Update subtotal and total
-                    subtotal -= priceToRemove;
-                    subtotalElement.textContent = subtotal.toFixed(2);
-                    totalElement.textContent = subtotal.toFixed(2);
-                }
-            });
-            // Listen for changes in the discount input field
-            document.getElementById('discount').addEventListener('input', function() {
-                const discount = parseFloat(this.value);
-                const discountedTotal = subtotal - discount;
-                totalElement.textContent = discountedTotal.toFixed(2);
-            });
-
-            // Listen for changes in the payment method
-            paymentMethodSelect.addEventListener('change', function() {
-                // You can add logic here to update the total based on the selected payment method
-                // For now, let's keep it simple and assume the total remains the same
-                totalElement.textContent = subtotal.toFixed(2);
-            });
-
-            // Checkout button event listener
-            document.getElementById('checkout').addEventListener('click', function() {
-                // Here, you can implement the checkout logic, e.g., send the order details to a server for processing
-                // For this example, let's just display an alert
-                const selectedPaymentMethod = paymentMethodSelect.value;
-                const total = parseFloat(totalElement.textContent);
-                alert(`Checkout completed! Payment method: ${selectedPaymentMethod}, Total amount: $${total.toFixed(2)}`);
+        // Close error message
+        document.querySelectorAll('.close-error').forEach(el => {
+            el.addEventListener('click', function() {
+                const errorDiv = this.parentElement;
+                errorDiv.style.display = 'none';
             });
         });
+
+        // Close success message
+        document.querySelectorAll('.close-success').forEach(el => {
+            el.addEventListener('click', function() {
+                const successDiv = this.parentElement;
+                successDiv.style.display = 'none';
+            });
+        });
+
+        // Confirm deletion
+        function confirmDeletion() {
+            return confirm('Are you sure you want to delete this item?');
+        }
     </script>
 </body>
-
 </html>

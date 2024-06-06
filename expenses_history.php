@@ -1,8 +1,10 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+// Check if the user is logged in and is an admin
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    // Redirect to unauthorized page or login page
+    header("Location: unauthorized.php");
     exit();
 }
 
@@ -86,7 +88,7 @@ $conn->close();
                             <td><?php echo htmlspecialchars($row['name']); ?></td>
                             <td><?php echo htmlspecialchars($row['date']); ?></td>
                             <td><?php echo htmlspecialchars($row['description']); ?></td>
-                            <td>GH₵ <?php echo number_format($row['amount'], 2); ?></td>
+                            <td>GH₵<?php echo number_format($row['amount'], 2); ?></td>
                         </tr>
                     <?php endwhile; ?>
                 <?php else : ?>

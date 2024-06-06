@@ -1,3 +1,4 @@
+
 .page_all {
     padding: 0 7%;
     padding-block: 50px;
@@ -198,6 +199,20 @@ th {
     border-radius: 10px;
 }
 
+.swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
 .swiper-button-next,
 .swiper-rtl .swiper-button-prev {
     right: var(--swiper-navigation-sides-offset, 10px);
@@ -243,7 +258,7 @@ th {
     line-height: 1;
     font-weight: 900;
 }
-.swiper-container{
+.mySwiper2{
     padding: 0 2%;
     padding-block: 70px;
     position: relative;
@@ -255,6 +270,25 @@ th {
 .arrows {
     width: 120px;
     position: absolute;
-    top:30px ;
+    top:30px;
     right: 30px;
+    z-index: 14543;
+}
+.swiper-container{
+  position: relative;
+    overflow: hidden;
+}
+
+
+.page_cards{
+    overflow: hidden;
+
+}
+
+  
+@media only screen and (max-width: 1110px) {
+    .swiper-container{
+        overflow: hidden;
+     
+    }
 }

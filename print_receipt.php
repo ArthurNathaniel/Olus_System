@@ -110,7 +110,7 @@ $conn->close();
         <div class="receipt_flex">
 
             <p><strong>Cashier:</strong> <?php echo $cashierName; ?></p>
-            <p><strong>Order ID:</strong> <?php echo $order['order_id']; ?></p>
+            <p><strong>Order ID:</strong> <?php echo $order['id']; ?></p>
         </div>
         <div class="receipt_flex">
             <p><strong>Payment Method:</strong> <?php echo $order['payment_method']; ?></p>

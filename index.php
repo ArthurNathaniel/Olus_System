@@ -7,44 +7,23 @@
     <?php include 'cdn.php'; ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/index.css">
-    <link rel="stylesheet" href="./css/login.css">
 </head>
 <body>
-    <div class="index_all">
-        <div class="index_text">
-            <h1>Run your restaurant <br>
-right from your fingertips
-  </h1>
-            <p>
-            Streamline your dining experience – manage orders, track inventory, and enhance customer satisfaction with our intuitive restaurant POS system.
-            </p>
-            <a href="login.php">
-                <div class="index_btn">
-                    <button>
-                        Login as a Cashier
-                    </button>
-                </div>
-            </a>
-        </div>
-        <div class="index_swiper">
-        <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="./images/1.png" alt="">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="./images/2.png" alt="">
-                    </div>
-                </div>
-                <div class="swipper_arrow">
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-        </div>
+    <div class="index_page">
+        <div class="logo"></div>
+        <h1>Welcome to LeePOS System </h1>
+       <p>
+      LeePOS system manages orders, tracks earnings, processes payments, handles 
+       expenditures, and provides insightful trend charts on various time scales.
+       </p>
+       <div class="index_btn">
+       <a href="login.php">
+        <button>Get Started</button>
+       </a>
+       </div>
     </div>
-    <script src="./js/swiper.js"></script>
 </body>
+<style>
+   
+</style>
 </html>

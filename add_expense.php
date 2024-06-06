@@ -1,11 +1,13 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+
+// Check if the user is logged in and is an admin
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    // Redirect to unauthorized page or login page
+    header("Location: unauthorized.php");
     exit();
 }
-
 // Assuming $cashierName is set in session or should be retrieved from database
 $cashierName = $_SESSION['username']; // or fetch from database if stored there
 
@@ -114,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="forms">
                 <label for="amount">Amount</label>
-                <input type="number" min="0" placeholder="Enter the amount" id="amount" name="amount" required>
+                <input type="number" min="0" placeholder="Enter the amount" id="amount" name="amount" step="0.01" required>
             </div>
 
             <div class="forms">

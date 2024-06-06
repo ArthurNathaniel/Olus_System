@@ -4,6 +4,13 @@ $username = "root";
 $password = "";
 $dbname = "olus_system";
 
+
+
+// $servername = "nathstack.tech";
+// $username = "u500921674_leepos";
+// $password = "OnGod@123";
+// $dbname = "u500921674_leepos";
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 

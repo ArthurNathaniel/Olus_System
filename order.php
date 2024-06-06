@@ -78,27 +78,28 @@ $conn->close();
                 <?php endforeach; ?>
             </div> -->
             <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    <?php foreach ($foods as $food) : ?>
-                        <div class="swiper-slide">
-                            <div class="card">
-                                <img src="<?php echo $food['image']; ?>" alt="<?php echo $food['name']; ?>">
-                                <div class="card_info">
-                                    <h2><?php echo $food['name']; ?></h2>
-                                    <button class="add-to-order" data-id="<?php echo $food['id']; ?>" data-name="<?php echo $food['name']; ?>" data-price="<?php echo $food['price']; ?>">
-                                        <i class="fa-solid fa-cart-plus"></i>
-                                    </button>
+                <div class="swiper mySwiper2">
+                    <div class="swiper-wrapper">
+                        <?php foreach ($foods as $food) : ?>
+                            <div class="swiper-slide">
+                                <div class="card">
+                                    <img src="<?php echo $food['image']; ?>" alt="<?php echo $food['name']; ?>">
+                                    <div class="card_info">
+                                        <h2><?php echo $food['name']; ?></h2>
+                                        <button class="add-to-order" data-id="<?php echo $food['id']; ?>" data-name="<?php echo $food['name']; ?>" data-price="<?php echo $food['price']; ?>">
+                                            <i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-                <div class="arrows">
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="arrows">
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
                 </div>
             </div>
-            
             <div class="order-section ">
                 <div class="forms">
                     <h2>Order Details</h2>
@@ -148,17 +149,17 @@ $conn->close();
             </div>
         </div>
     </div>
-    
-   
+
+
     <script src="./js/swiper.js"></script>
-    <script src="./js/order.js"></script> 
+    <script src="./js/order.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         flatpickr("#order-date", {
             dateFormat: "Y-m-d",
             minDate: "today",
             maxDate: "today",
-            disableMobile: true 
+            disableMobile: true
         });
     </script>
 </body>

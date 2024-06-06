@@ -42,3 +42,4 @@ CREATE TABLE expenses (
 );
 
 ALTER TABLE orders ADD COLUMN status VARCHAR(20) DEFAULT 'not ready';
+ALTER TABLE users ADD COLUMN role VARCHAR(50) NOT NULL DEFAULT 'cashier';

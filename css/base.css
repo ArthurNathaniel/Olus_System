@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=Sora:wght@100..800&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -9,7 +10,8 @@
 
 body {
     font-family: "Onest", sans-serif;
-background-color: #f2f4f7;
+    background-color: #f2f4f7;
+    overflow-y: scroll;
 }
 
 h1,
@@ -50,7 +52,7 @@ h6 {
     margin-block: 30px;
     margin-left: auto;
     margin-right: auto;
-    background-image: url(../images/olu-logo.png);
+    background-image: url(../images/logo.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -126,7 +128,45 @@ h6 {
     color: #fff !important;
 }
 
-.all{
+.all {
     padding: 0 7%;
     margin-block: 50px;
+}
+
+.welcome_base {
+    background-color: #fff;
+    padding: 0 2%;
+    padding-block: 10px;
+    border-radius: 30px;
+}
+
+.profile {
+    border: none;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+
+@media only screen and (max-width: 1110px) {
+    .sidebar_all {
+        width: 70%;
+    }
+
+    .welcome_base {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .card_all {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .page_swiper {
+        display: none;
+    }
+
+    .page_all {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
 }

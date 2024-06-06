@@ -1,18 +1,19 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+// Check if the user is logged in and is an admin
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    // Redirect to unauthorized page or login page
+    header("Location: unauthorized.php");
     exit();
 }
-
 include 'db.php';
-
-// Initialize total earnings variable
-$totalEarnings = 0;
 
 // Set the default selected year to the current year
 $selectedYear = date('Y');
+
+// Initialize total earnings variable
+$totalEarnings = 0;
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -56,17 +57,45 @@ $conn->close();
     <?php include 'cdn.php'; ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/food.css">
+    <script>
+        function greetUser() {
+            var currentTime = new Date();
+            var currentHour = currentTime.getHours();
+            var greeting;
+
+            if (currentHour < 12) {
+                greeting = "Good morning";
+            } else if (currentHour < 18) {
+                greeting = "Good afternoon";
+            } else {
+                greeting = "Good evening";
+            }
+
+            var cashierName = "<?php echo isset($_SESSION['username']) ? $_SESSION['username'] : ''; ?>";
+            document.getElementById("greeting").innerHTML = greeting + ", " + cashierName;
+        }
+    </script>
 </head>
-<body>
-<?php include 'sidebar.php'; ?>
-    <div class="history_all">
+
+<body onload="greetUser()">
+    <?php include 'sidebar.php'; ?>
+    <div class="all">
+        <div class="welcome_base">
+            <div class="greetings">
+                <h1 id="greeting"></h1>
+                <!-- <p>Welcome to Olu's Kitchen, </p> -->
+            </div>
+            <div class="profile"></div>
+        </div>
         <h1>Monthly Earnings</h1>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="forms">
                 <label for="selected_date">Select Month and Year:</label>
                 <input type="month" id="selected_date" name="selected_date" value="<?php echo date('Y-m'); ?>" required>
             </div>
-            <button type="submit">Submit</button>
+            <div class="forms">
+                <button type="submit">Submit</button>
+            </div>
         </form>
 
         <?php if (isset($errorMessage)) : ?>
@@ -84,12 +113,12 @@ $conn->close();
                     <?php foreach ($earnings as $earning) : ?>
                         <tr>
                             <td><?php echo $earning['food_name']; ?></td>
-                            <td>$<?php echo number_format($earning['total_earnings'], 2); ?></td>
+                            <td>GH₵ <?php echo number_format($earning['total_earnings'], 2); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     <tr>
                         <td><strong>Total Earnings</strong></td>
-                        <td><strong>$<?php echo number_format($totalEarnings, 2); ?></strong></td>
+                        <td><strong>GH₵ <?php echo number_format($totalEarnings, 2); ?></strong></td>
                     </tr>
                 </tbody>
             </table>

@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
             $_SESSION['username'] = $username;
+            $_SESSION['user_role'] = $row['role']; // Store the user role in the session
             header("Location: chart.php");
             exit();
         } else {
@@ -31,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,17 +40,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'cdn.php' ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/login.css">
+    <style>
+        .logos {
+            height: 150px;
+            width: 150px;
+            margin-block: 30px;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            background-image: url(../images/logo.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+        }
+    </style>
 </head>
+
 <body>
     <div class="page_all">
         <div class="page_login">
-            <div class="logo"></div>
+            <div class="logos"></div>
             <div class="forms">
                 <h2>Log in to your Account</h2>
                 <p>You are welcome back, login as a Cashier</p>
             </div>
             <form method="POST" action="">
-                <?php if ($error): ?>
+                <?php if ($error) : ?>
                     <div class="error">
                         <p><?php echo $error; ?></p>
                         <p class="close-error"><i class="fa-solid fa-xmark"></i></p>
@@ -67,9 +83,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="submit">Login</button>
                 </div>
             </form>
-            <div class="forms">
+            <!-- <div class="forms">
                 <p>Don't have an account? <a href="signup.php">Sign up here</a></p>
-            </div>
+            </div> -->
         </div>
         <div class="page_swiper">
             <div class="swiper mySwiper">
@@ -99,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="./js/swiper.js"></script>
     <script>
         // Toggle password visibility
-        document.querySelector('.toggle-password').addEventListener('click', function () {
+        document.querySelector('.toggle-password').addEventListener('click', function() {
             const passwordInput = document.getElementById('password');
             const icon = this.querySelector('i');
             if (passwordInput.type === 'password') {
@@ -114,10 +130,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
 
         // Close error message
-        document.querySelector('.close-error')?.addEventListener('click', function () {
+        document.querySelector('.close-error')?.addEventListener('click', function() {
             const errorDiv = this.parentElement;
             errorDiv.style.display = 'none';
         });
     </script>
 </body>
+
 </html>

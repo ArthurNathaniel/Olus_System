@@ -8,3 +8,11 @@
     padding-block: 50px;
     background-color: #fff;
 }
+
+@media only screen and (max-width: 1110px) {
+  
+    .card_all{
+        display: flex;
+        flex-direction: column;
+    }
+}
